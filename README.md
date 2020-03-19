@@ -16,6 +16,8 @@
 
 Caso esteja em um *Windows* antes de começarmos iremos precisar de algumas ferramentas para trabalhar com o ecossistema *React*, sendo elas:
 
+<div id="#CH"></div>
+
 ### 1.1	Chocolatey
 Para instalar o *Chocolatey* é só colar o seguinte comando no *PowerShell Windows*: 
 ```console
@@ -29,14 +31,20 @@ Chocolatey v0.10.15
 Please run 'choco -?' or 'choco <command> -?' for help menu.
 ```
 Sendo possível agora também acessá-lo pelo *cmd*.
- 
+
+<div id="#YN"></div>
+
 ### 1.2	Yarn
 Detalhe que em ambos os casos os instaladores instalam o *Node.js* automaticamente.
+  <div id="#YNW"></div>
+  
   1.	Windows<br>
   Em Windows é necessário executar as seguintes, e exaustivas, linhas de comando<br>
   ```console
   foo@bar:~$ choco install yarn
   ```
+  <div id="#YNL"></div>
+  
   2.	Linux<br>
 Em *Linux* por outro lado, quando o *Yarn* não vem nativamente em sua distribuição, é relativamente fácil é apenas necessário seguir as seguintes linhas de comando:
 ```console
@@ -51,6 +59,7 @@ foo@bar:~$ yarn --version
 Muito prático, realmente.
 
 ___
+<div id="#IR"></div>
 
 ## 2. Instalando o React
 
@@ -120,5 +129,6 @@ E irá automaticamente abrir em seu http://localhost:3000
 ![alt text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_01.png)
 
 ---
+<div id="#VC"></div>
 
 ## 3. Vendo o código
