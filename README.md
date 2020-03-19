@@ -1,10 +1,22 @@
 # PETSite em React - Walkthrough
 
-## Pré-Requisitos
+## Sumário
+
+1. <a href="#PR">Pré-Requisitos</a><br>
+  1.1 <a href="#CH">Chocolatey</a><br>
+  1.2 <a href="#YN">Yarn</a>
+    1. <a href="#YNW">Windows</a>
+    2. <a href="#YNL">Linux</a>
+2. <a href="#IR">Instalando o React</a>
+3. <a href="#VC">Vendo o código</a>
+
+<div id="#PR"></div>
+
+## 1. Pré-Requisitos
 
 Caso esteja em um *Windows* antes de começarmos iremos precisar de algumas ferramentas para trabalhar com o ecossistema *React*, sendo elas:
 
-### 1.	Chocolatey
+### 1.1	Chocolatey
 Para instalar o *Chocolatey* é só colar o seguinte comando no *PowerShell Windows*: 
 ```console
 foo@bar:~$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
@@ -18,7 +30,7 @@ Please run 'choco -?' or 'choco <command> -?' for help menu.
 ```
 Sendo possível agora também acessá-lo pelo *cmd*.
  
-### 2.	Yarn
+### 1.2	Yarn
 Detalhe que em ambos os casos os instaladores instalam o *Node.js* automaticamente.
   1.	Windows<br>
   Em Windows é necessário executar as seguintes, e exaustivas, linhas de comando<br>
@@ -40,7 +52,7 @@ Muito prático, realmente.
 
 ___
 
-## Instalando o React
+## 2. Instalando o React
 
 Estando na sua área de trabalho, execute o comando para adicionar o *create-react-app*
 ```console
@@ -105,3 +117,8 @@ To create a production build, use yarn build.
 ```
 
 E irá automaticamente abrir em seu http://localhost:3000
+![alt text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_01.png)
+
+---
+
+## 3. Vendo o código
