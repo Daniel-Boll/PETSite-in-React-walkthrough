@@ -37,7 +37,7 @@ Sendo possível agora também acessá-lo pelo *cmd*.
 
 ### 1.2 VSCode [(Visual Studio Code)](https://github.com/microsoft/vscode)
 
-Primeiramente a ferramenta de edição de texto que estaremos utilizando é o [Visual Studio Code](https://code.visualstudio.com/) que pode ser baixada clicando ali ou com a seguinte linha
+Agora a ferramenta de edição de texto que estaremos utilizando é o [Visual Studio Code](https://code.visualstudio.com/) que pode ser baixada clicando ali ou com a seguinte linha
 ```console
 foo@bar:~$ choco install vscode
 ```
