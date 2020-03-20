@@ -10,7 +10,7 @@
     2. <a href="#YNL">Linux</a>
 2. <a href="#IR">Instalando o React</a>
 3. <a href="#VC">Vendo o código</a>
-4. <a href="#Workflow">You Know</a>
+4. <a href="#Workflow">Workflow</a>
 
 <div id="PR"></div>
 
