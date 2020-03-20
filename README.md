@@ -4,10 +4,10 @@
 
 1. <a href="#PR">Pré-Requisitos</a><br>
   1.1 <a href="#CH">Chocolatey</a><br>
-  1.2 <a href="#YN">Yarn</a>
+  1.2 <a href="#VSC">VSCode</a><br>
+  1.3 <a href="#YN">Yarn</a>
     1. <a href="#YNW">Windows</a>
     2. <a href="#YNL">Linux</a>
-  1.3 <a href="#VSC">VSCode</a>
 2. <a href="#IR">Instalando o React</a>
 3. <a href="#VC">Vendo o código</a>
 
@@ -33,9 +33,18 @@ Please run 'choco -?' or 'choco <command> -?' for help menu.
 ```
 Sendo possível agora também acessá-lo pelo *cmd*.
 
+<div id="VSC"></div>
+
+### 1.2 VSCode [(Visual Studio Code)](https://github.com/microsoft/vscode)
+
+Primeiramente a ferramenta de edição de texto que estaremos utilizando é o [Visual Studio Code](https://code.visualstudio.com/) que pode ser baixada clicando ali ou com a seguinte linha
+```console
+foo@bar:~$ choco install vscode
+```
+
 <div id="YN"></div>
 
-### 1.2	Yarn
+### 1.3	Yarn
 Detalhe que em ambos os casos os instaladores instalam o *Node.js* automaticamente.
   <div id="YNW"></div>
   
@@ -58,15 +67,6 @@ foo@bar:~$ yarn --version
 ```
 
 Muito prático, realmente.
-
-<div id="VSC"></div>
-
-### 1.3 VSCode [(Visual Studio Code)](https://github.com/microsoft/vscode)
-
-Por fim a ferramente de edição de texto que estarei utilizando é o [Visual Studio Code](https://code.visualstudio.com/) que pode ser baixada clicando em ali ou com a seguinte linha
-```console
-foo@bar:~$ choco install vscode
-```
 
 ___
 <div id="IR"></div>
@@ -138,6 +138,8 @@ To create a production build, use yarn build.
 E irá automaticamente abrir em seu http://localhost:3000
 ![alt text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_01.png)
 
+Para finalizar é só voltar no servidor e apertar CTRL+C que ele irá encerrar o host.
+
 ---
 <div id="VC"></div>
 
@@ -151,3 +153,52 @@ foo@bar: /desktop/petsite$ code .
 Isso deve abrir o VSCode no diretório apontado, que no caso foi o atual. De cara já podemos ver algumas coisas que foram adicionadas no diretório.
 ![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_02.png)
 
+Ao expandir os diretórios *public* e *src* nos deparamos com isso
+![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_03.png)
+
+Bom, assustador! Diversos arquivos e não sabemos o que a maioria faz, então vamos fazer o quê? Abrir cada um e olhar? Exatamente :) Não! Vamos excluir a maioria, mais precisamente os seguintes:
+
+public
+* favicon.ico
+* logo192.png
+* logo512.png
+* robots.txt
+
+src
+* App.css
+* App.test.js
+* index.css
+* logo.svg
+* setupTests.js
+
+Devendo ficar assim
+![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_04.png)
+
+Agora ao executar
+´´´console
+foo@bar: /desktop/petsite$ yarn start
+´´´
+
+Ele irá abrir novamente a aba no seu browser, mas agora contendo uma mensagem de erro
+![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_05.png)
+
+Era de se esperar, já que apagamos várias coisas que os códigos estavam se aproveitando e agora não estão achando mais, então devemos corrigir algumas coisas. Em ***App.js*** iremos remover as linhas 2, 3 e 9. Que continham as seguintes linhas de código
+```jsx
+import logo from './logo.svg';
+import './App.css';
+<img src={logo} className="App-logo" alt="logo" />
+```
+
+Agora em ***index.js**** iremos remover a linha 3
+```jsx
+import './index.css';
+```
+
+Agora podemos *rodar* novamente a aplicação com
+´´´console
+foo@bar: /desktop/petsite$ yarn start
+´´´
+
+E o que iremos ver será:
+Devendo ficar assim
+![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_06.png)
