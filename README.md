@@ -150,11 +150,15 @@ Agora para que possamos acessar o código no terminal digitamos
 foo@bar: /desktop/petsite$ code .
 ```
 
-Isso deve abrir o VSCode no diretório apontado, que no caso foi o atual. De cara já podemos ver algumas coisas que foram adicionadas no diretório.
-![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_02.png)
+Isso deve abrir o VSCode no diretório apontado, que no caso foi o atual. De cara já podemos ver algumas coisas que foram adicionadas no diretório.<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_02.png">
+</p>
 
-Ao expandir os diretórios *public* e *src* nos deparamos com isso
-![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_03.png)
+Ao expandir os diretórios *public* e *src* nos deparamos com isso<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_03.png">
+</p>
 
 Bom, assustador! Diversos arquivos e não sabemos o que a maioria faz, então vamos fazer o quê? Abrir cada um e olhar? Exatamente :) Não! Vamos excluir a maioria, mais precisamente os seguintes:
 
@@ -171,13 +175,15 @@ src
 * logo.svg
 * setupTests.js
 
-Devendo ficar assim
-![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_04.png)
+Devendo ficar assim<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_04.png">
+</p>
 
 Agora ao executar
-´´´console
+```console
 foo@bar: /desktop/petsite$ yarn start
-´´´
+```
 
 Ele irá abrir novamente a aba no seu browser, mas agora contendo uma mensagem de erro
 ![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_05.png)
@@ -195,10 +201,11 @@ import './index.css';
 ```
 
 Agora podemos *rodar* novamente a aplicação com
-´´´console
+```console
 foo@bar: /desktop/petsite$ yarn start
-´´´
+```
 
-E o que iremos ver será:
-Devendo ficar assim
-![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_06.png)
+E o que iremos ver será:<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_06.png">
+</p>
