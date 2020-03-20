@@ -10,6 +10,7 @@
     2. <a href="#YNL">Linux</a>
 2. <a href="#IR">Instalando o React</a>
 3. <a href="#VC">Vendo o código</a>
+4. <a href="#Workflow">You Know</a>
 
 <div id="PR"></div>
 
@@ -195,7 +196,7 @@ import './App.css';
 <img src={logo} className="App-logo" alt="logo" />
 ```
 
-Agora em ***index.js**** iremos remover a linha 3
+Agora em ***index.js*** iremos remover a linha 3
 ```jsx
 import './index.css';
 ```
@@ -209,3 +210,114 @@ E o que iremos ver será:<br>
 <p align="center">
   <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_06.png">
 </p>
+
+---
+
+<div id="Workflow"></div>
+
+## 4. Workflow
+
+Agora vamos meter a mão na massa e começar a arrumar os diretórios da forma que eles ficarão para o resto do projeto. No próprio VSCode clique em cima de *src* com o botão direito e em *new folder* ou *nova pasta* abrirá um espaço de diretório novo e você poderá colocar o nome dessa nova pasta, coloque *components*. Deverá ficar assim<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_07.png">
+</p>
+
+Dentro dessa pasta *components* iremos adicionar mais outras duas, sendo elas *routes* e *widgets*. Então o processo é o mesmo, clique em cima de *components* com o botão direito e em *new folder* ou *nova pasta* abrirá um espaço de diretório novo e você poderá colocar o nome dessa nova pasta, na primeira coloque *routes*, repita o processo e para a próxima *widgets*.<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_08.png">
+</p>
+
+Em *routes* clique com o botão direito e em *new file* ou *novo arquivo* e coloque o nome ***Routes.js*** ele automaticamente abrirá o arquivo para você, agora copie e cole o seguinte código para dentro do seu
+```jsx
+import React from 'react'
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import NotFound from './NotFound';
+import Home from './Home';
+
+const Routes = () => {
+    return (
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route path="*" component={NotFound}/>
+            </Switch>
+        </BrowserRouter>
+    );
+}
+
+export default Routes;
+```
+
+ Crie também outros dois novos arquivos dentro da /components/routes que estarão junto de *Routes.js*, sendo eles 
+ * Home.js
+ * NotFound.js
+ 
+ Onde *Home.js* será
+ ```jsx
+ import React, {Component} from 'react'
+
+class Home extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render() {
+        return (
+            <main id='app'>
+               <p>Home</p>
+            </main>
+        )
+    }
+}
+
+export default Home;
+ ```
+ 
+ E *NotFound.js* 
+ ```jsx
+ import React from 'react'
+
+const NotFound = () => <h2>Not Found!</h2>;
+
+export default NotFound
+ ```
+ 
+Agora retornando para o *App.js* vamos editá-lo de forma a ficar assim
+ ```jsx
+import React, {Component} from 'react';
+import Routes from './components/routes/Routes';
+class App extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <Routes/>
+      </React.Fragment >
+    );
+  }
+}
+
+export default (App);
+ ```
+ 
+E então rodamos novamente o servidor com
+```console
+foo@bar: /desktop/petsite$ yarn start
+```
+
+E vemos esse erro<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_09.png">
+</p>
+
+Que está basicamente dizendo que não reconhece o *react-router-dom* que é o gerenciador de rotas que utilizaremos para trabalhar com o React, então sendo nossa primeira biblioteca externa a ser adicionada utilizaremos o Yarn para implementá-la em nossa aplicação com o seguinte comando
+
+```console
+foo@bar: /desktop/petsite$ yarn add react-router-dom
+```
+
+Agora rodando novamente o servidor devemos ver a tela home
+```console
+foo@bar: /desktop/petsite$ yarn start
+```
