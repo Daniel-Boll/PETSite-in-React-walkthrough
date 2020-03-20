@@ -7,6 +7,7 @@
   1.2 <a href="#YN">Yarn</a>
     1. <a href="#YNW">Windows</a>
     2. <a href="#YNL">Linux</a>
+  1.3 <a href="#VSC">VSCode</a>
 2. <a href="#IR">Instalando o React</a>
 3. <a href="#VC">Vendo o código</a>
 
@@ -57,6 +58,15 @@ foo@bar:~$ yarn --version
 ```
 
 Muito prático, realmente.
+
+<div id="VSC"></div>
+
+### 1.3 VSCode [(Visual Studio Code)](https://github.com/microsoft/vscode)
+
+Por fim a ferramente de edição de texto que estarei utilizando é o [Visual Studio Code](https://code.visualstudio.com/) que pode ser baixada clicando em ali ou com a seguinte linha
+```console
+foo@bar:~$ choco install vscode
+```
 
 ___
 <div id="IR"></div>
@@ -132,3 +142,12 @@ E irá automaticamente abrir em seu http://localhost:3000
 <div id="VC"></div>
 
 ## 3. Vendo o código
+
+Agora para que possamos acessar o código no terminal digitamos
+```console
+foo@bar: /desktop/petsite$ code .
+```
+
+Isso deve abrir o VSCode no diretório apontado, que no caso foi o atual. De cara já podemos ver algumas coisas que foram adicionadas no diretório.
+![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_02.png)
+
