@@ -334,7 +334,7 @@ Deverá nos levar para a página NotFound. Então agora a fundação do nosso si
 
 ## 5. Home Page
 
-A primeira coisa que iremos fazer na *home page* é estabelecer o tema do site, ou seja, iremos por a cor de fundo que será utilizada no mesmo, para isso iremos necessitar de um *.css* que é um tipo de código estilizador de páginas *html*. Então iremos recriar o que já apagamos uma vez, o *App.css* e ele ficará em um diretório separado para que possamos manter a ordem em nossas páginas, então na *src* crie um novo tiretório e nomeie-o com *css* agora a pasta *src* tem duas subpastas, *components* e *css*. Agora dentro dessa pasta *css* iremos criar um arquivo *.css* o supracitado *App.css* da mesma forma que os outros arquivos foram criados, devendo ficar assim<br>
+A primeira coisa que iremos fazer na *home page* é estabelecer o tema do site, ou seja, iremos por a cor de fundo que será utilizada no mesmo, para isso iremos necessitar de um *.css* que é um tipo de código estilizador de páginas *html*. Então iremos recriar o que já apagamos uma vez, o *App.css* e ele ficará em um diretório separado para que possamos manter a ordem em nossas páginas, então na *src* crie um novo diretório e nomeie-o com *css* agora a pasta *src* tem duas subpastas, *components* e *css*. Agora dentro dessa pasta *css* iremos criar um arquivo *.css* o supracitado *App.css* da mesma forma que os outros arquivos foram criados, devendo ficar assim<br>
 <p align="center">
   <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_10.png">
 </p>
@@ -363,4 +363,9 @@ e troque essa linha por
 <body class="App">
 ```
 
-Agora o body faz parte da classe *App*, assim que voltarmos ao site (ou executar novamente) o tema deverá estar aplicado já
+Agora no arquivo *Home.js* adicione a linha
+```js
+import '../../css/App.css';
+```
+
+Então o body faz parte da classe *App* e o *Home.js* está utilizando o *.css*, assim que voltarmos ao site (ou executar novamente) o tema deverá estar aplicado já
