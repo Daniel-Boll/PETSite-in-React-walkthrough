@@ -11,6 +11,7 @@
 2. <a href="#IR">Instalando o React</a>
 3. <a href="#VC">Vendo o código</a>
 4. <a href="#Workflow">Workflow</a>
+5. <a href="#HomePage">Home Page</a>
 
 <div id="PR"></div>
 
@@ -74,7 +75,7 @@ ___
 
 ## 2. Instalando o React
 
-Estando na sua área de trabalho, execute o comando para adicionar o *create-react-app*
+Estando na sua área de trabalho, execute o comando para adicionar o *create-react-app* (Não se esqueça de usar o sudo, ou estar no cmd/powershell/wsl admin para evitar erros)
 ```console
 foo@bar: /desktop$ yarn global add create-react-app
 success Installed "create-react-app@3.4.0" with binaries:
@@ -186,7 +187,7 @@ Agora ao executar
 foo@bar: /desktop/petsite$ yarn start
 ```
 
-Ele irá abrir novamente a aba no seu browser, mas agora contendo uma mensagem de erro
+Ele irá abrir novamente a aba no seu navegador, mas agora contendo uma mensagem de erro
 ![alt_text](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_05.png)
 
 Era de se esperar, já que apagamos várias coisas que os códigos estavam se aproveitando e agora não estão achando mais, então devemos corrigir algumas coisas. Em ***App.js*** iremos remover as linhas 2, 3 e 9. Que continham as seguintes linhas de código
@@ -321,3 +322,45 @@ Agora rodando novamente o servidor devemos ver a tela home
 ```console
 foo@bar: /desktop/petsite$ yarn start
 ```
+
+Caso colocarmos na url
+```console
+localhost:3000/alguma_coisa
+```
+
+Deverá nos levar para a página NotFound. Então agora a fundação do nosso sistema de rotas está feita, podemos aplicar agora o tema e começar a trabalhar na *home page*
+
+<div id="HomePage"></div>
+
+## 5. Home Page
+
+A primeira coisa que iremos fazer na *home page* é estabelecer o tema do site, ou seja, iremos por a cor de fundo que será utilizada no mesmo, para isso iremos necessitar de um *.css* que é um tipo de código estilizador de páginas *html*. Então iremos recriar o que já apagamos uma vez, o *App.css* e ele ficará em um diretório separado para que possamos manter a ordem em nossas páginas, então na *src* crie um novo tiretório e nomeie-o com *css* agora a pasta *src* tem duas subpastas, *components* e *css*. Agora dentro dessa pasta *css* iremos criar um arquivo *.css* o supracitado *App.css* da mesma forma que os outros arquivos foram criados, devendo ficar assim<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_10.png">
+</p>
+
+Agora cole o seguinte código
+```css
+html { margin: 0px; height: 100%; width: 100%; }
+body { margin: 0px; min-height: 100%; width: 100%; } 
+
+.App {
+    background: #8E2DE2 !important;
+    background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2) !important;
+    background: linear-gradient(to right, #4A00E0, #8E2DE2) !important;
+}
+```
+
+Que está fazendo com que as tags *html* e *body* ocupem totalmente a tela e as tags que sejam da class *App* receberam uma cor de fundo gradiente do azul para o roxo, vindo da esquerda indo para a direita, e é repetido 3 vezes para dar suporte a diferentes navegadores que utilizem diferentes formas de fazer isso. Agora precisamos falar quais tags que são dessa classe *App* para que possa ser aplicado o tema, então vamos ao arquivo *index.html* que está dentro da pasta *public*, clicamos nele e assim que abrir aperte CTRL+F para localizar uma parte especifica do teste e procure por
+
+```html
+<body
+```
+
+e troque essa linha por
+
+```html
+<body class="App">
+```
+
+Agora o body faz parte da classe *App*, assim que voltarmos ao site (ou executar novamente) o tema deverá estar aplicado já
