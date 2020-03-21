@@ -458,7 +458,7 @@ Então até o momento devemos ter<br>
 </p>
 
 E em mobile<br>
-<p align="center">
-  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_12.png">
-  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_13.png">
+<p float="left">
+  <img width="350" align="left" src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_12.png" hspace="20">
+  <img width="350" align="left" src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_13.png" hspace="20">
 </p>
