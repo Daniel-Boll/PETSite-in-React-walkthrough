@@ -13,7 +13,8 @@
 4. <a href="#Workflow">Workflow</a>
 5. <a href="#HomePage">Home Page</a><br>
   5.1 <a href="#Navbar">Navbar</a><br>
-  5.2 <a href="#HomeContent">Home Content</a>
+  5.2 <a href="#HomeContent">Home Content</a><br>
+  5.3 <a href="#Footer">Footer</a>
 
 <div id="PR"></div>
 
@@ -366,6 +367,8 @@ import '../../css/App.css';
 
 Então o body faz parte da classe *App* e o *Home.js* está utilizando o *.css*, assim que voltarmos ao site (ou executar novamente) o tema deverá estar aplicado já
 
+---
+
 <div id="Navbar"></div>
 
 ### 5.1 Navbar
@@ -464,6 +467,8 @@ E em mobile<br>
   <img width="350" align="left" src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_13.png" hspace="20">
 </p>
 <br><br><br><br><br><br><br>
+
+---
 
 <div id="HomeContent"></div>
 
@@ -736,7 +741,7 @@ export default Logo;
 
 Como havia dito diferente do que fizemos até agora apareceu **bastante** código e meio que do nada, eu decidi que seria mais fácil eu entregar o código completo e destrinchá-lo pouco a pouco já com o contexto global, então vamos lá que temos bastante coisa para cobrir
 
-### HomeContent.js
+#### HomeContent.js
 
 Já nas importações nos deparamos com coisas novas
 ```jsx
@@ -845,3 +850,132 @@ Agora temos o componente *Zoom* que foi importado dá *@material-ui/core*, o que
 <p align="center">
   <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_14.gif">
 </p>
+
+Então tanto a [*logo*](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/logo.png) que está na primeira *Row* sendo invocada pelo componente *Logo* que é do código *Logo.js* que consistem colocar a imagem dentro de uma *div* alinhada no centro e puxar imagem dos assets através do import
+
+```jsx
+import logo from '../../../assets/logo.png'
+```
+
+Que depois é usada em *src* da tag *img*
+
+```jsx
+<div align="center">
+    <img
+            style={{paddingLeft: "0"}}
+            width={"300px"}
+            src={logo}
+    />{' '}
+</div>
+```
+
+Ambos os componentes *Logo* e *PETD* que está logo abaixo
+```jsx
+<Zoom in={checked} style={{transitionDelay: checked ? '750ms' : '0ms'}}>
+    <Container>
+        <Row>
+            <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                {/* PET description */}
+                <PETD/>
+            </Col>       
+        </Row>  
+    </Container> 
+</Zoom>  
+```
+
+Usam o componente *Zoom* para animar sua transição, e para que um venha depois do outro é só aumentar o *transitionDelay* que fica dentro do *style* do *Zoom* que ele irá aparecer depois de x milissegundos que o componente foi chamado. No caso estou usando 250ms de diferença entre componentes. E o que o componente *PETD* tem é.
+
+```jsx
+<div align="center">
+    <div align="left" style={{maxWidth: "300px"}}>
+        <p style={{color: "white"}}>
+            O Programa de Educação Tutorial (PET) insere estudantes de graduação em projetos de educação tutorial com o objetivo de aplicar seus conhecimentos e ampliar sua formação.
+        </p>
+    </div>
+</div> 
+```
+
+Finalizando essa primeira *Row* vamos para a segunda que contém o trecho **O que é o PET?** e alguns ícones do lado, então foram separados em 2 diferentes *Col* 
+
+```jsx
+<Col>
+    <div align={align} style={{minWidth: "330px", maxHeight:"450px"}}>
+        <Zoom in={checked} style={{transitionDelay: checked ? '1000ms' : '0ms'}}>
+            <Container>
+                <div style={{maxWidth: "300px"}} align="left">   
+                    <h1 align={align} style={{color: "white"}}>O que é?</h1>
+                    <p style={{color: "white"}}>
+                        O PET Ciência da Computação (PETComp) foi criado em dezembro de 2010 e é o 5º Grupo PET da UNIOESTE (1º do campus de Cascavel), destinado exclusivamente aos alunos regularmente matriculados no Curso. Sua aprovação junto ao MEC foi uma conquista do Prof. Dr. Clodis Boscarioli, muito bem recebida, após 5 tentativas de submissão de projeto por parte de vários professores.
+                    </p>
+                </div>
+            </Container>
+        </Zoom>
+    </div>
+</Col>
+```
+
+A primeira *Col* como podemos ver acima tem uma *div* que compreende tudo o que tem dentro dessa *Col* e seu alinhamento é definido pela *align* que veio do *state* então sempre que o *align* do *state* mudar o alinhamento dessa *div* mudará junto, então em seguida temos um componente *Zoom* igualmente o anterior, um *Container* e a *div* com a descrição do que é o PET, nela tem um título (*h1*) que também se utiliza do alinhamento ditado pelo *state* e um parágrafo (*p*).
+
+```jsx
+<Col>
+    <div style={{opacity: display}}>
+        <Zoom in={checked} style={{transitionDelay: checked ? '1250ms' : '0ms'}}>
+            <Container>
+                <PETIcons/>
+            </Container>
+        </Zoom>
+    </div>
+</Col>
+```
+
+A segunda *Col* tem uma *div* que tem sua opacidade ditada pelo *state*, se o *state* for mudado e o *display* for alterado para **0** toda essa *div* deixa de aparecer. E isso só acontece quando a janela for menor que uma quantidade, assim como o *align* e tudo é controlado pela função que vimos anteriormente, quando a janela for de um tamanho menor que o estipulado a descrição do que é o PET passa a ser alinhada centralmente e deixamos de ver os ícones, é como se retirassemos a segunda *Col*. E dentro dos componentes *Zoom* e *Container* temos o sub-componente *PETIcons* 
+
+```jsx
+<div>   
+    <MenuBook style={{color: "#955dff", fontSize: 140}}/>
+    <FileCopy style={{color: "#955dff", fontSize: 140}}/>
+    <Share style={{color: "#955dff", fontSize: 140}}/>
+</div>
+```
+
+Que é uma *div* com os componentes de ícone e suas cores e tamanhos, mas esses componentes de ícones foram chamados no *import* do próprio *PETIcons.js* que tem um peculiaridade 
+
+```jsx
+import {MenuBook, FileCopy, Share} from '@material-ui/icons';
+```
+
+Ele usa a biblioteca *@material-ui* assim como já importamos antes, mas agora é **/icons** e não mais **/core** então devemos baixar a biblioteca para essa também da mesma forma que fizemos para a */core*
+
+```console
+foo@bar: /desktop/petsite$ yarn add @material-ui/icons
+```
+
+Agora na terceira *Row*, ou seja, abaixo do que vimos agora, teremos as descrições de cada eixo da universidade, sendo então 3 *Cols*
+```jsx
+<Col>
+    <div>
+        <Zoom in={checked} style={{transitionDelay: checked ? '1000ms' : '0ms'}}>
+            <Container>
+                <div align="center">
+                    <div style={{maxWidth: "300px"}} align="left">   
+                        <h1 align={align} style={{color: "white"}}>Pesquisa</h1>
+                        <p style={{color: "white"}}>
+                            Para incentivar a pesquisa, no PET, todos os membros devem ter um projeto de iniciação cientifica.
+                        </p>
+                    </div>
+                </div>
+            </Container>
+        </Zoom>
+    </div>
+</Col>
+```
+
+Então a primeira *Col* tem novamente uma *div* que compreende tudo, dentro da *div* o componente *Zoom*, um *Container* e 2 *divs* para controlar posicionamento dos elementos dentro do *Container* e alinhamento do texto, depois temos um título (*h1*) que se utiliza do alinhamento variável do *state* e um parágrafo (*p*) com a descrição do título e isso se repete exatamente igual para os outros 2 eixos só trocando o título e o parágrafo.
+
+---
+
+<div id="Footer"></div>
+
+### 5.3 Footer
+
+Agora o Footer {...}
