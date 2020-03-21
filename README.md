@@ -451,3 +451,14 @@ Tudo que fizemos em *NavBar.js* se resume a um único componente
 ```jsx
 <NavBar/>
 ```
+
+Então até o momento devemos ter<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_11.png">
+</p>
+
+E em mobile<br>
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_12.png">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_13.png">
+</p>
