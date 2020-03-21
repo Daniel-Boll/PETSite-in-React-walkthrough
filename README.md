@@ -12,7 +12,8 @@
 3. <a href="#VC">Vendo o código</a>
 4. <a href="#Workflow">Workflow</a>
 5. <a href="#HomePage">Home Page</a><br>
-  5.1 <a href="#Navbar">Navbar</a>
+  5.1 <a href="#Navbar">Navbar</a><br>
+  5.2 <a href="#HomeContent">Home Content</a>
 
 <div id="PR"></div>
 
@@ -461,4 +462,386 @@ E em mobile<br>
 <p float="left">
   <img width="350" align="left" src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_12.png" hspace="20">
   <img width="350" align="left" src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_13.png" hspace="20">
+</p>
+<br><br><br><br><br><br><br>
+
+<div id="HomeContent"></div>
+
+### 5.2 Home Content
+
+Agora iremos trabalhar com as informações que serão mostradas na página inicial. Então iremos adicionar o componente *HomeContent* assim como fizemos com a *NavBar*, devendo ficar assim
+
+```jsx
+<Container style={{ paddingLeft: 24, paddingTop: 24 }}>
+   <NavBar/>
+</Container>
+
+<Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+   <HomeContent/>
+</Container>
+```
+
+Como perceberam é só colocar logo abaixo de onde estava a *navbar* e dentro de outro container, esse que não tem nenhum espaçamento lateral, ou seja, as colunas do corpo da página são coladas na borda da tela, diferente da *navbar*. Então agora precisamos criar a classe desse componente *HomeContent*, em *widgets* juntamente à *NavBar.js* criaremos *HomeContent.js*, ainda na pasta *widgets* criaremos uma outra pasta chamada *subContent* e nela criaremos os seguintes arquivos
+
+* *Logo.js*
+* *PETD.js*
+* *PETIcons.js*
+
+Que são sub-componentes do componente *HomeContent* que não necessitam estar atrelados a ele, então separamos para deixar mais fácil de se ler e trabalhar com o mesmo que já ficou muito maior que os códigos até o momento e por conta disso colocarei em seguida o código completo dos 4 arquivos (*HomeContent.js*, *Logo.js*, *PETD.js* e *PETIcons.js*) e ir comentando pequenos trechos de cada um para que seja mais fácil de absorver o conteúdo.
+
+* *HomeContent.js*
+```jsx
+import React, {Component} from 'react'
+import { Container, Row, Col } from "react-bootstrap";
+import {Zoom} from '@material-ui/core'
+import Logo from './subContent/Logo'
+import PETD from './subContent/PETD'
+import PETIcons from './subContent/PETIcons'
+import '../../css/App.css';
+
+class HomeContent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            checked: '',
+            align: '',
+            display: ''
+        }
+    }
+
+    async componentDidMount() {
+        this.setState({
+            checked: false,
+            align: "left",
+            display: 100
+        });
+        window.addEventListener('resize', this.updateDimensions);
+    }
+
+    updateDimensions = () => {
+        if(window.innerWidth < 515){
+            this.setState({
+                align: "center",
+                display: 0
+            });
+        }else{
+            this.setState({
+                align: "left",
+                display: 100
+            });
+        }
+    }
+
+    handleLoad = () => {
+        this.setState({
+            checked: true
+        })
+        this.updateDimensions();
+    }
+
+    render() {
+        const {checked, align, display} = this.state
+        return (
+            <>
+                <Row onLoad={this.handleLoad} xs={1} md={2}>
+                    <Col>
+                        <div>
+                            <Zoom in={checked} style={{transitionDelay: checked ? '500ms' : '0ms'}}>
+                                <Container>
+                                    <Row>
+                                        <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Logo/>
+                                        </Col>       
+                                    </Row>  
+                                </Container> 
+                            </Zoom>
+                            <br></br>
+
+                            <Zoom in={checked} style={{transitionDelay: checked ? '750ms' : '0ms'}}>
+                                <Container>
+                                    <Row>
+                                        <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            {/* PET description */}
+                                            <PETD/>
+                                        </Col>       
+                                    </Row>  
+                                </Container> 
+                            </Zoom>     
+                        </div>       
+                    </Col>
+                </Row>
+                <br></br><br></br><br></br><br></br><br></br>
+                <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+                    <Row xs={1} md={2}>
+                        <Col>
+                            {/* O alinhamento da div é alterado quando passa de determinado tamanho */}
+                            <div align={align} style={{minWidth: "330px", maxHeight:"450px"}}>
+                                <Zoom in={checked} style={{transitionDelay: checked ? '1000ms' : '0ms'}}>
+                                    <Container>
+                                        {/* What is PET */}
+                                        <div style={{maxWidth: "300px"}} align="left">   
+                                            <h1 align={align} style={{color: "white"}}>O que é?</h1>
+                                            <p style={{color: "white"}}>
+                                                O PET Ciência da Computação (PETComp) foi criado em dezembro de 2010 e é o 5º Grupo PET da UNIOESTE (1º do campus de Cascavel), destinado exclusivamente aos alunos regularmente matriculados no Curso. Sua aprovação junto ao MEC foi uma conquista do Prof. Dr. Clodis Boscarioli, muito bem recebida, após 5 tentativas de submissão de projeto por parte de vários professores.
+                                            </p>
+                                        </div>
+                                    </Container>
+                                </Zoom>
+                            </div>
+                        </Col>
+                        <Col>
+                            {/* Ícones */}
+                            <br></br>
+                            {/* Opacity é alterada pra 0 quando passa de uma determinado tamanho, então deixam de ser mostrados */}
+
+                            <div style={{opacity: display}}>
+                                <Zoom in={checked} style={{transitionDelay: checked ? '1250ms' : '0ms'}}>
+                                    <Container>
+                                        <PETIcons/>
+                                    </Container>
+                                </Zoom>
+                            </div>
+                        </Col>
+
+                    </Row>
+                </Container>
+                <br></br><br></br><br></br><br></br><br></br>
+                <Container style={{ paddingLeft: 0, paddingRight: 0, flexDirection: "row"}}>
+                    <Row xs={1} md={2}>
+                        <Col>
+                            {/* Projeto, pesquisa e extenção */}
+                            <div>
+                                <Zoom in={checked} style={{transitionDelay: checked ? '1000ms' : '0ms'}}>
+                                    <Container>
+                                        <div align="center">
+                                            <div style={{maxWidth: "300px"}} align="left">   
+                                                <h1 align={align} style={{color: "white"}}>Pesquisa</h1>
+                                                <p style={{color: "white"}}>
+                                                    Para incentivar a pesquisa, no PET, todos os membros devem ter um projeto de iniciação cientifica.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Container>
+                                </Zoom>
+                            </div>
+                        </Col>
+                        <Col>
+                            <div>
+                                <Zoom in={checked} style={{transitionDelay: checked ? '1000ms' : '0ms'}}>
+                                    <Container>
+                                        <div style={{maxWidth: "300px"}} align="left">   
+                                            <h1 align={align} style={{color: "white"}}>Ensino</h1>
+                                            <p style={{color: "white"}}>
+                                                O PET organiza eventos para compartilhar e adquirir conhecimento, como minicursos e palestras, que são abertos para os membros do PET e para os acadêmicos do curso de ciência da computação.
+                                            </p>
+                                        </div>
+                                    </Container>
+                                </Zoom>
+                            </div>
+                        </Col>
+                        <Col>
+                        <div>
+                            <Zoom in={checked} style={{transitionDelay: checked ? '1000ms' : '0ms'}}>
+                                <Container>
+                                    <div style={{maxWidth: "300px"}} align="left">   
+                                        <h1 align={align} style={{color: "white"}}>Extensão</h1>
+                                        <p style={{color: "white"}}>
+                                            Entre os projetos que o PET realiza, existem os projetos de extensão, que estabelecem uma conexão com a comunidade.
+                                        </p>
+                                    </div>
+                                </Container>
+                            </Zoom>
+                        </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </>
+        )
+    }
+}
+
+export default HomeContent;
+```
+
+* *Logo.js*
+```jsx
+import React, {Component} from 'react'
+
+import logo from '../../../assets/logo.png'
+
+class Logo extends Component {
+    render() {
+        return (
+            <>
+                <div align="center">
+                    <img
+                            style={{paddingLeft: "0"}}
+                            width={"300px"}
+                            src={logo}
+                    />{' '}
+                </div>
+            </>
+        )
+    }
+}
+
+export default Logo;
+```
+
+* *PETD.js*
+```jsx
+import React, {Component} from 'react'
+
+class PETD extends Component {
+    render() {
+        return (
+            <>
+                <div align="center">
+                    <div align="left" style={{maxWidth: "300px"}}>
+                        <p style={{color: "white"}}>
+                            O Programa de Educação Tutorial (PET) insere estudantes de graduação em projetos de educação tutorial com o objetivo de aplicar seus conhecimentos e ampliar sua formação.
+                        </p>
+                    </div>
+                </div>  
+            </>
+        )
+    }
+}
+
+export default PETD;
+```
+
+* *PETIcons.js*
+```jsx
+import React, {Component} from 'react'
+import {MenuBook, FileCopy, Share} from '@material-ui/icons';
+
+class Logo extends Component {
+    render() {
+        return (
+            <>
+                <div>   
+                    <MenuBook style={{color: "#955dff", fontSize: 140}}/>
+                    <FileCopy style={{color: "#955dff", fontSize: 140}}/>
+                    <Share style={{color: "#955dff", fontSize: 140}}/>
+                </div>
+            </>
+        )
+    }
+}
+
+export default Logo;
+```
+
+Como havia dito diferente do que fizemos até agora apareceu **bastante** código e meio que do nada, eu decidi que seria mais fácil eu entregar o código completo e destrinchá-lo pouco a pouco já com o contexto global, então vamos lá que temos bastante coisa para cobrir
+
+### HomeContent.js
+
+Já nas importações nos deparamos com coisas novas
+```jsx
+import {Zoom} from '@material-ui/core'
+import Logo from './subContent/Logo'
+import PETD from './subContent/PETD'
+import PETIcons from './subContent/PETIcons'
+```
+
+Um componente chamado *Zoom* de uma biblioteca chamada ***@material-ui/core*** e os sub-componentes que criamos (*Logo.js*, *PETD.js* e *PETIcons.js*). Essa biblioteca *@material-ui/core* assim como a *react-bootstrap* precisa ser adicionada, então da mesma forma faremos para a *@material-ui/core*.
+
+```console
+foo@bar: /desktop/petsite$ yarn add @material-ui/core
+```
+
+Agora mais abaixo temos um novo trecho de código com um *constructor*
+```jsx
+constructor(props) {
+    super(props);
+    this.state = {
+        checked: '',
+        align: '',
+        display: ''
+    }
+}
+```
+
+Um construtor é chamado juntamente a chamada de classe, que ocorre quando o componente é ativado, e esse construtor tem uma coisa importante pra gente que é o *state*, o *state* será usado por nós para trechos que sejam variáveis, quando usarmos será mais fácil de compreender.
+
+```jsx
+async componentDidMount() {
+    this.setState({
+        checked: false,
+        align: "left",
+        display: 100
+    });
+    window.addEventListener('resize', this.updateDimensions);
+}
+```
+
+A função *componentDidMount* fica esperando que o componente seja montado na classe que o chamou, assim que isso acontecer ela solta as atualizações que foram feitas dentro dela. Então colocamos os valores inicias do nosso *state* através do *setState*. E a última linha é a janela que lança um evento sempre que ela mudar de tamanho, e esse evento é tratado pela seguinte função
+
+```jsx
+updateDimensions = () => {
+    if(window.innerWidth < 515){
+        this.setState({
+            align: "center",
+            display: 0
+        });
+    }else{
+        this.setState({
+            align: "left",
+            display: 100
+        });
+    }
+}
+```
+
+Em um momento do código sempre que a tela passar uma determinada quantidades de espaço, queremos mudar o alinhamento do componente de lateral para central, pois agora o mesmo será o único a ser mostrado, então é: caso seja menor que o determinado tamanho será alinhado no meio e o que acompanhava ele não será mais mostrado, caso contrário continua mostrando e alinhe a esquerda.
+
+```jsx
+handleLoad = () => {
+    this.setState({
+        checked: true
+    })
+    this.updateDimensions();
+}
+```
+
+A função *handleLoad* seta o *state* e chama a função de redimencionamento de que acabamos de ver sempre que um componente, que o chame, é carregado.
+
+```jsx
+render() {
+  ...
+}
+```
+
+Agora o restante estará tudo dentro do *render*, então trarei os trechos parecendo que estão no nada, mas estão dentro do *render*.
+
+```jsx
+const {checked, align, display} = this.state
+```
+
+Assim que é renderizado nós criamos variáveis que irão armazenar os estados do *state* para que possamos usá-lo dentro do *render* sem ter que ficar citando o tempo todo que o componente que queremos é desmontado do *state*.
+
+```jsx
+<Row onLoad={this.handleLoad} xs={1} md={2}>
+```
+
+Aqui o primeiro elemento renderizado já chama a função que *handleLoad* que vimos anteriormente para fazer os tratamentos necessários. Ele é seguido de uma *Col* e uma *div* que engloba tudo, então os elementos que serão mostrados pertencerão a uma unica coluna no meio da tela.
+
+```jsx
+<Zoom in={checked} style={{transitionDelay: checked ? '500ms' : '0ms'}}>
+    <Container>
+        <Row>
+            <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                <Logo/>
+            </Col>       
+        </Row>  
+    </Container> 
+</Zoom>
+```
+
+Agora temos o componente *Zoom* que foi importado dá *@material-ui/core*, o que ele faz basicamente é *Container* que estiver dentro dele irá mostrar seus elementos gradativamente como se estivesse saindo da tela
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_14.gif">
 </p>
