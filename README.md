@@ -11,7 +11,8 @@
 2. <a href="#IR">Instalando o React</a>
 3. <a href="#VC">Vendo o código</a>
 4. <a href="#Workflow">Workflow</a>
-5. <a href="#HomePage">Home Page</a>
+5. <a href="#HomePage">Home Page</a><br>
+  5.1 <a href="#Navbar">Navbar</a>
 
 <div id="PR"></div>
 
@@ -258,12 +259,6 @@ export default Routes;
  import React, {Component} from 'react'
 
 class Home extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
     render() {
         return (
             <main id='app'>
@@ -369,3 +364,90 @@ import '../../css/App.css';
 ```
 
 Então o body faz parte da classe *App* e o *Home.js* está utilizando o *.css*, assim que voltarmos ao site (ou executar novamente) o tema deverá estar aplicado já
+
+<div id="Navbar"></div>
+
+### 5.1 Navbar
+
+Agora iremos fazer a *navbar* do site que é a parte que de cima do site, onde fica alguns links e a logo. Primeiramente iremos criar o arquivo para a *navbar*, então dentro de *components/widgets* será criado o arquivo *NavBar.js* que conterá o código da *navbar*. Após criado iremos inserir o código dentro do arquivo
+
+```jsx
+import React, {Component} from 'react'
+import {Navbar, Nav} from 'react-bootstrap'
+import logo from '../../assets/logoC.png'
+
+class NavBar extends Component {
+    render() {
+        return (
+            <>
+                <Navbar collapseOnSelect expand="lg">
+                    <Navbar.Brand href="#home">
+                    <img
+                        style={{paddingLeft: "40"}}
+                        width={"42px"}
+                        src={logo}
+                    />{' '}
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="mr-auto">
+                        </Nav>
+                        <Nav>
+                            <Nav.Link href="#futurasrotas" style={{color: "white"}}>Início</Nav.Link>
+                            <Nav.Link href="#futurasrotas" style={{color: "white"}}>Projetos</Nav.Link>
+                            <Nav.Link href="#futurasrotas" style={{color: "white"}}>Membros</Nav.Link>
+                            <Nav.Link href="#futurasrotas" style={{color: "white"}}>Contatos</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar><br/><br/><br/><br/>
+            </>
+        )
+    }
+}
+
+export default NavBar;
+```
+
+E esse código importa duas novas coisas que ainda não temos
+```jsx
+import {Navbar, Nav} from 'react-bootstrap'
+import logo from '../../assets/logoC.png'
+```
+
+*React-bootstrap* é biblioteca usada para criar os componentes internos da *navbar* então para baixá-lo no terminal digitamos
+```console
+foo@bar: /desktop/petsite$ yarn add react-bootstrap
+```
+
+Enquanto ele baixa a dependência, podemos ir criando a nova pasta que utilizaremos, a *assets*. *Assets* ficará dentro de *src* junto com *components* e *css* e dentro dela armazenaremos as imagens que utilizaremos no projeto. E dentro dela armazenaremos a [*logoC.png*](https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/logoC.png). Agora no arquivo *Home.js* iremos chamar o component *NavBar* através do import e colocá-lo dentro do *render* onde estáva a escrita da página.
+
+```jsx
+import React, {Component} from 'react'
+import {Container, Row, Col} from 'react-bootstrap'
+import NavBar from '../widgets/NavBar';
+import '../../css/App.css';
+
+class Home extends Component {
+    render() {
+        return (
+            <>
+                <Container>
+                    <NavBar/>
+                </Container>
+            </>
+        )
+    }
+}
+
+export default Home;
+```
+
+Note que ao importar
+```jsx
+import NavBar from '../widgets/NavBar';
+```
+
+Tudo que fizemos em *NavBar.js* se resume a um único componente
+```jsx
+<NavBar/>
+```
