@@ -1,4 +1,11 @@
-# PETSite em React - Walkthrough
+# <h1 align="center">PETSite em React - Walkthrough</h1>
+
+> O intuito desse repositório é de fazer um passo a passo de como construir o site do grupo PET 
+> utilizando ***React*** para que novos integrantes do grupo que forem trabalhar com o site possam 
+> compreender como ele foi construído facilitando futuras alterações e inserções de dados no
+> mesmo.
+
+---
 
 ## Sumário
 
@@ -15,6 +22,9 @@
   5.1 <a href="#Navbar">Navbar</a><br>
   5.2 <a href="#HomeContent">Home Content</a><br>
   5.3 <a href="#Footer">Footer</a>
+6. <a href="#Routes">Arrumando as Rotas</a>
+7. <a href="#ProjectPage">Página de Projetos</a>
+--- 
 
 <div id="PR"></div>
 
@@ -978,4 +988,328 @@ Então a primeira *Col* tem novamente uma *div* que compreende tudo, dentro da *
 
 ### 5.3 Footer
 
-Agora o Footer {...}
+Agora o *Footer*, adicionaremos o componente *Footer* na *home* juntamente aos componentes *NavBar* e *HomeContent*, devendo ficar assim
+
+```jsx
+<Container style={{ paddingLeft: 24, paddingTop: 24 }}>
+    <NavBar/>
+</Container>
+
+<Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <HomeContent/>
+</Container>
+
+<Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <Footer/>
+</Container>
+```
+
+E então criaremos o código para o componente, em *widgets* criamos o arquivo *Footer.js* e inserimos o seguinte código dentro
+
+```jsx
+import React, {Component} from 'react'
+import {Row, Col} from 'react-bootstrap'
+import {Facebook, Instagram, GitHub, WhatsApp} from '@material-ui/icons';
+
+
+class Footer extends Component {
+    render() {
+        return (
+            <>
+                <Row onLoad={this.handleLoad}>
+                    <Col>
+                        <div>
+                            <div align="center">
+                                <h1 style={{color: "white"}}>Alguma dúvida? Entre em contato.</h1>
+                            </div>
+                        </div>
+                    </Col>    
+                </Row><br></br><br></br><br></br>
+                <Row>
+                    <Col>
+                        <div>
+                            <div align="center">
+                                <div align="center">
+                                <a href="https://facebook.com/petcomp"><Facebook style={{color: "white", fontSize: 30}}/></a>{' '}
+                                <a href="https://instagram.com/petcomp_unioeste"><Instagram style={{color: "white", fontSize: 30}}/></a>{' '}
+                                <a href="https://github.com/petcomp-unioeste"><GitHub style={{color: "white", fontSize: 30}}/></a>{' '}
+                                <a href="https://www.youtube.com/channel/UC7c6zwLrLbuqVa4sjUn20Jg"><YouTube style={{color: "white", fontSize: 30}}/></a>{' '}
+                            </div>
+                            </div>
+                        </div>
+                    </Col>    
+                </Row><br></br>
+                <Row>
+                    <Col>
+                        <div>
+                            <div align="center">
+                                <p style={{color: "white"}}>Rua Universitária, 1619. Cascavel, PR. Brasil. Bloco F, Sala 15</p>
+                            </div>
+                        </div>
+                    </Col> 
+                </Row>
+                <Row>
+                    <Col>
+                        <div>
+                            <div align="center">
+                                <p style={{color: "white"}}><b>Unioeste - PETComp</b></p>
+                            </div>
+                        </div>
+                    </Col> 
+                </Row>                
+            </>
+        )
+    }
+}
+
+export default Footer;
+```
+
+O nosso *footer* consiste em 4 elementos, logo 4 componentes *Row*. Sendo a primeira apenas com um título
+
+```jsx
+<Row onLoad={this.handleLoad}>
+    <Col>
+        <div>
+            <div align="center">
+                <h1 style={{color: "white"}}>Alguma dúvida? Entre em contato.</h1>
+            </div>
+        </div>
+    </Col>    
+</Row>
+```
+
+E só utilizamos 1 *Col*, pois não estamos dispondo mais de um elementos nessa mesma linha para ter que divid-los. Agora a segunda *Row* compreende os ícones para as mídias do PET.
+
+```jsx
+<Row>
+  <Col>
+      <div>
+          <div align="center">
+              <a href="https://facebook.com/petcomp"><Facebook style={{color: "white", fontSize: 30}}/></a>{' '}
+              <a href="https://instagram.com/petcomp_unioeste"><Instagram style={{color: "white", fontSize: 30}}/></a>{' '}
+              <a href="https://github.com/petcomp-unioeste"><GitHub style={{color: "white", fontSize: 30}}/></a>{' '}
+              <a href="https://www.youtube.com/channel/UC7c6zwLrLbuqVa4sjUn20Jg"><YouTube style={{color: "white", fontSize: 30}}/></a>{' '}
+          </div>
+      </div>
+  </Col>    
+</Row>
+```
+
+Utilizando a *tag* de *link* (*a*) passamos os *links* quando o determinado ícone for clicado, esses ícones que foram importados aqui
+
+```jsx
+import {Facebook, Instagram, GitHub, WhatsApp, YouTube} from '@material-ui/icons';
+```
+
+E as últimas duas *Rows* são apenas parágrafos
+
+```jsx
+<Row>
+    <Col>
+        <div>
+            <div align="center">
+                <p style={{color: "white"}}>Rua Universitária, 1619. Cascavel, PR. Brasil. Bloco F, Sala 15</p>
+            </div>
+        </div>
+    </Col> 
+</Row>
+<Row>
+    <Col>
+        <div>
+            <div align="center">
+                <p style={{color: "white"}}><b>Unioeste - PETComp</b></p>
+            </div>
+        </div>
+    </Col> 
+</Row>  
+```
+
+Diferenciando entre eles apenas que o último está em negrito devido a *tag* (*b*).
+
+---
+
+<div id="Routes"></div>
+
+## 6. Arrumando as Rotas
+
+Agora para que o site fique funcional, precisamos que os *links* da *NavBar* realmente levem para as páginas que ele deveria. Então vamos dar uma mudada nos *Nav.Link* .
+
+```jsx
+<Nav.Link href="/" style={{color: "white"}}><b>INÍCIO</b></Nav.Link>
+<Nav.Link href="/Project" style={{color: "white"}}><b>PROJETOS</b></Nav.Link>
+<Nav.Link href="/Member" style={{color: "white"}}><b>MEMBROS</b></Nav.Link>
+<Nav.Link href="/Contact" style={{color: "white"}}><b>CONTATOS</b></Nav.Link>
+```
+
+Trocamos o *href* para as rotas serão definidas em *Routes.js* e colocamos para destacar o nome a *tag* (*b*), mas como não criamos os códigos para a página de projetos, membros e contatos e tampouco os colocamos na *Routes.js*, logo significa que sempre que tentarmos clicar nesses *links* seremos levados para a página *NotFound* então iremos dar uma repaginada nela.
+
+```jsx
+import React, {Component} from 'react'
+import { Container } from "react-bootstrap";
+import NavBar from '../widgets/NavBar';
+import NotFoundContent from '../widgets/NotFoundContent';
+import Footer from '../widgets/Footer';
+import '../../css/App.css';
+
+class NotFound extends Component {
+    render() {
+        return (
+            <>
+                <Container style={{ paddingLeft: 24, paddingTop: 24 }}>
+                    <NavBar/>
+                </Container>
+
+                <Container style={{ paddingLeft: 0, paddingRight: 0, height: "40vh" }}>
+                    <NotFoundContent/>
+                </Container>
+
+                <Container style={{ paddingLeft: 0, paddingRight: 0}}>
+                    <Footer/>
+                </Container>
+            </>
+        )
+    }
+}
+
+export default NotFound;
+```
+
+Agora aproveitamos os componentes *NavBar* e *Footer* que já fizemos e os adicionamos
+
+```jsx
+<Container style={{ paddingLeft: 24, paddingTop: 24 }}>
+    <NavBar/>
+</Container>
+
+<Container style={{ paddingLeft: 0, paddingRight: 0, height: "50vh" }}>
+    <NotFoundContent/>
+</Container>
+
+<Container style={{ paddingLeft: 0, paddingRight: 0}}>
+    <Footer/>
+</Container>
+```
+
+No mesmo formato que a *Home*. Como observado há um componente *NotFoundContent* que é o conteúdo que haverá na página, assim como *HomeContent* ele será criado na pasta *widgets* como *NotFoundContent.js*
+
+```jsx
+import React, {Component} from 'react'
+import { Container, Row, Col } from "react-bootstrap";
+import {Zoom} from '@material-ui/core'
+import Logo from '../widgets/subContent/Logo'
+import '../../css/App.css';
+
+class NotFoundContent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            checked: ''
+        }
+    }
+
+    async componentDidMount() {
+        this.setState({
+            checked: false
+        });
+    }
+
+    handleLoad = () => {
+        this.setState({
+            checked: true
+        })
+    }
+
+    render() {
+        const {checked} = this.state
+        return (
+            <>
+                <Row onLoad={this.handleLoad} xs={1} md={2}>
+                    <Col>
+                        <div>
+                            <Zoom in={checked} style={{transitionDelay: checked ? '500ms' : '0ms'}}>
+                                <Container>
+                                    <Row>
+                                        <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Logo/>
+                                        </Col>       
+                                    </Row>  
+                                </Container> 
+                            </Zoom>
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div>
+                            <Zoom in={checked} style={{transitionDelay: checked ? '750ms' : '0ms'}}>
+                                <Container>
+                                    <Row>
+                                        <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h1 align="center" style={{color: "white"}}>Página não encontrada!</h1>
+                                        </Col>       
+                                    </Row>  
+                                </Container> 
+                            </Zoom>     
+                        </div>       
+                    </Col>
+                </Row>
+            </>
+        )
+    }
+}
+
+export default NotFoundContent;
+```
+
+Nele temos as funções para controlar o *checked* de *this.state* e poder usar o *Zoom* assim como vimos em *HomeContent* e dentro do conteúdo temos 2 componentes *Row*.
+
+```jsx
+<Row onLoad={this.handleLoad} xs={1} md={2}>
+    <Col>
+        <div>
+            <Zoom in={checked} style={{transitionDelay: checked ? '500ms' : '0ms'}}>
+                <Container>
+                    <Row>
+                        <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Logo/>
+                        </Col>       
+                    </Row>  
+                </Container> 
+            </Zoom>
+        </div>
+    </Col>
+</Row>
+```
+
+No primeiro usamos o componente de *Logo*. 
+
+```jsx
+<Row>
+    <Col>
+        <div>
+            <Zoom in={checked} style={{transitionDelay: checked ? '750ms' : '0ms'}}>
+                <Container>
+                    <Row>
+                        <Col fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <h1 align="center" style={{color: "white"}}>Página não encontrada!</h1>
+                        </Col>       
+                    </Row>  
+                </Container> 
+            </Zoom>     
+        </div>       
+    </Col>
+</Row>
+```
+
+E na segunda *Row* um título (*h1*) com a mensagem de que a página não foi encontrada.
+
+---
+
+<div id="ProjectPage"></div>
+
+## 7. Página de Projetos
+
+```console
+foo@bar: ~$ work in progress
+```
