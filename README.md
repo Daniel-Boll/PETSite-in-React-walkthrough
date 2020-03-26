@@ -23,7 +23,7 @@
   5.2 <a href="#HomeContent">Home Content</a><br>
   5.3 <a href="#Footer">Footer</a>
 6. <a href="#Routes">Arrumando as Rotas</a>
-7. <a href="#ProjectPage">Página de Projetos</a>
+7. <a href="#MemberPage">Página de Membros</a>
 --- 
 
 <div id="PR"></div>
@@ -1306,10 +1306,11 @@ E na segunda *Row* um título (*h1*) com a mensagem de que a página não foi en
 
 ---
 
-<div id="ProjectPage"></div>
+#### Páginas Dinâmicas
 
-## 7. Página de Projetos
+Agora diferente da nossa *Home* as outras 2 páginas serão **dinâmicas**, ou seja, elas mudam de acordo com os integrantes do PET ou com os projetos atuais, a primeira que faremos é a página de membros
 
-```console
-foo@bar: ~$ work in progress
-```
+<div id="MemberPage"></div>
+
+## 7. Página de Membros
+
