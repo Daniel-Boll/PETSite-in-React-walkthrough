@@ -1314,3 +1314,526 @@ Agora diferente da nossa *Home* as outras 2 páginas serão **dinâmicas**, ou s
 
 ## 7. Página de Membros
 
+Então já que precisaremos fazer páginas dinâmicas que se ajustam com base nas informações que são inseridas nelas, usaremos um banco de dados para obter os dados e outras partes do *WorkFlow* pra tratar as informações recebidas. Então vamos primeiramente arrumar o *WorkFlow*. Na pasta *src* iremos criar os seguintes diretórios com os seguintes arquivos dentros:
+
+* data
+  * DataHandler.js
+* objects
+  * Membro.js
+* utils
+  * config.js
+
+Agora o que cada código contém. 
+
+#### DataHandler.js
+
+```jsx
+import * as firebase from "firebase/app";
+import "firebase/database";
+import {Membro, ICV} from '../objects/Membro';
+
+const pathMembers = 'Members';
+
+class DataHandler {
+    
+    // Função para pegar todos os membros
+
+    static async getAllMembers() {
+        let data = (await firebase
+            .database()
+            .ref(pathMembers)
+            .once('value'))
+            .val();
+        
+        if(data === null) {
+            return [];
+        }
+        
+        let ret = [];
+        
+        for(var id in data) {
+          ret.push(this.formatMemberFromDb(id, data[id]));
+        }
+        
+        return ret;
+    }
+
+    // Inserir ID no member
+    
+    static formatMemberFromDb(dbId, dbMember) {
+      dbMember.id = dbId;
+      return dbMember;
+    }
+
+    // Pegar um membro pelo ID
+    
+    static async getMemberFromId(idMember) {
+        let data = (await firebase
+            .database()
+            .ref(pathMembers)
+            .child(idMember)
+            .once('value'))
+            .val();
+        
+        return this.formatMemberFromDb(idMember, data);
+    }
+
+    // Atualizar membro
+    
+    static async updateMember(Member) {
+      return firebase
+          .database()
+          .ref(pathMembers)
+          .child(Member.id)
+          .set(Member);
+    }
+
+    // Popular o banco
+    
+    static populateDatabase(memberInfo) {
+      let members = [
+        Membro(
+                memberInfo.nome,
+                memberInfo.descricao,
+                memberInfo.email,
+                memberInfo.lattes,
+                ICV(
+                    memberInfo.icv.ano,
+                    memberInfo.icv.titulo,
+                    memberInfo.icv.orientador,
+                    memberInfo.icv.descricao
+                    // null
+                )
+        )
+      ];
+
+      for(var member of members) {      
+        firebase
+          .database()
+          .ref(pathMembers)
+          .push()
+          .set(member);
+      }
+    }
+}
+
+export default DataHandler;
+```
+
+Logo nas importagens já percebemos qual será o banco de dados usado
+
+```jsx
+import * as firebase from "firebase/app";
+import "firebase/database";
+```
+
+O [***Firebase***](https://console.firebase.google.com/) é um banco de dados não relacional provido pela *Google*. Já vamos aproveitar que citamos ele e mostrar como configurá-lo. Entrando no *link* e logando com sua *google account* você verá uma tela mostrando projetos recentes onde você pode também adicionar um novo projeto. 
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_15.png">
+</p>
+
+E então você começara a configurar o projeto, primeiro escolhendo o nome, que no caso utilizaremos PETSite.
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_16.png">
+</p>
+
+Ele irá te perguntar se você quer que o *Google Analytics* seja ativado no seu projeto, não iremos querer pra esse projeto, então no *switch* ali em baixo nós desativamos e clicamos em criar projeto. Assim que terminar de carregar você será direcionado pra visão geral do projeto. 
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_17.png">
+</p>
+
+Clicaremos no símbolo correspondente a *Web* (</>) e irá abrir essa tela
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_18.png">
+</p>
+
+Escolheremos o nome PETSite e clicaremos em **Registrar app**.  Ele irá indicar para adicionar a *SDK* do *Firebase* que é um trecho parecido com isso
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_19.png">
+</p>
+
+Com os dados da sua aplicação, o que realmente é interessante pra gente é a variável **firebaseConfig**, colocaremos ela no arquivo *config.js* que está dentro da pasta *utils*. De forma a ficar assim
+
+```jsx
+import * as firebase from "firebase/app";
+
+export default async function initialize() {
+  firebase.initializeApp({
+    apiKey: "------",
+    authDomain: "------",
+    databaseURL: "------",
+    projectId: "------",
+    storageBucket: "------",
+    messagingSenderId: "------",
+    appId: "------"
+  });
+}
+```
+
+Onde cada campo ficará específico da sua *firebaseConfig*. Aí clicaremos em **continuar no console**. Irá voltar para a visão geral do projeto, na parte ao lado na terá algumas opções de desenvolvedor, clique em *database*
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_20.png">
+</p>
+
+Depois desça até chegar na opção de criar o *Realtime Database* e clique em **criar banco de dados**
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_21.png">
+</p>
+
+Marque a opção *iniciar no **modo de teste** e depois em ativar
+
+<p align="center">
+  <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_22.png">
+</p>
+
+E pronto, seu banco de dados está criado e pronto pra ser usado. Agora baixaremos a dependência *firebase/app* utilizando o *yarn*
+
+```console
+foo@bar: /desktop/petsite$ yarn add firebase/app
+```
+
+Voltando ao *DataHandler.js* explicaremos a função que nos é importante agora e ,eventualmente, quando as outras funções forem usadas explicamos.
+
+```jsx
+static populateDatabase(memberInfo) {
+  let members = [
+    Membro(
+            memberInfo.nome,
+            memberInfo.descricao,
+            memberInfo.email,
+            memberInfo.lattes,
+            ICV(
+                memberInfo.icv.ano,
+                memberInfo.icv.titulo,
+                memberInfo.icv.orientador,
+                memberInfo.icv.descricao
+                // null
+            )
+    )
+  ];
+
+  for(var member of members) {      
+    firebase
+      .database()
+      .ref(pathMembers)
+      .push()
+      .set(member);
+  }
+}
+```
+
+Esse trecho cria um vetor de membros e usa as funções *Membro* e *ICV* pra popular o vetor, que ele teve acesso através do *import*
+
+```jsx
+import {Membro, ICV} from '../objects/Membro';
+```
+
+E o que *Membro.js* na pasta */objects* faz é 
+
+```jsx
+function Membro(
+    nome,       // String nome
+    descricao,  // String descrição (breve) do ICV
+    email,      // String com o e-mail
+    lattes,     // String com link do lattes
+    icv         // Array com (Ano, Título ICV, Orientador, Descrição completa, Local de publicação, ICVs passados)
+) {
+    return {
+        nome,
+        descricao,
+        email,
+        lattes,
+        icv
+    };
+}
+
+function ICV(
+    year,
+    title,
+    advisor,
+    description
+){
+    return {
+        year,
+        title,
+        advisor,
+        description
+    }
+}
+export { Membro, ICV };
+```
+
+Arranja os dados e retorna eles. Depois o DataHandler passa por todo membro de *membros* e coloca ele no banco de dados
+
+```jsx
+for(var member of members) {      
+  firebase
+    .database()
+    .ref(pathMembers)
+    .push()
+    .set(member);
+}
+```
+
+Onde *pathMember* equivale a 'Members' e *member* o objeto de membros. Agora vamos mudar o *index.js* que está dentro da pasta *src* para
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import Loading from './components/widgets/Loading';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import initialize from './utils/config';
+
+ReactDOM.render(<Loading/>, document.getElementById('root'));
+
+initialize().then(function() {
+    ReactDOM.render(
+        <Router>
+          <React.Fragment>
+            <App />
+          </React.Fragment>
+        </Router>
+        , document.getElementById('root'));
+});
+```
+
+Que agora irá acessar o banco, aí carregar a aplicação. Mas ali tem algo novo, um componente *Loading* que ainda não criamos, então dentro de widgets criaremos *Loading.js*.
+
+```jsx
+import React from 'react';
+import logo from '../../assets/logoC.png'
+import {Row, Col} from 'react-bootstrap'
+import '../../css/loadingCSS.css'
+
+const Loading = (props) => {
+  return (
+    <>
+      <Row>
+        <Col>
+          <div align="center">
+            <h1 style={{color: "white"}}>Carregando</h1>
+            <img
+                className="image"
+                width={"42px"}
+                src={logo}
+                alt="PETLogo"
+            />{' '}
+          </div>
+        </Col>
+      </Row>
+    </>
+  );
+};
+
+export default Loading;
+```
+
+Que deixa a logo do PET girando enquanto faz acesso aos dados do banco, para isso criamos na pasta *css* o arquivo *loadingCSS.css*
+
+```css
+.image {
+    -webkit-animation:spin .5s linear infinite;
+    -moz-animation:spin .5s linear infinite;
+    animation:spin .5s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+```
+
+Agora que está tudo devidamente configurado iremos criar o arquivo que insere no banco de dados *Forms.js* e o que recebe as informações dele *Member.js* ambos no diretório *routes*. O *Forms.js*
+
+```jsx
+import React, {Component} from 'react';
+import {Row, Col, Form, Button} from 'react-bootstrap'
+import DataHandler from '../../data/DataHandler'
+
+class Forms extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            nome: '',
+            descricao: '',
+            email: '',
+            lattes: '',
+            icv: {
+                ano: '',
+                titulo: '',
+                orientador: '',
+                descricao: ''
+            }
+        }
+    }
+
+    handleNameChange = e => {
+        this.setState({nome: e.target.value});
+    }
+
+    handleDescriptionChange = e => {
+        this.setState({descricao: e.target.value});
+    }
+
+    handleEmailChange = e => {
+        this.setState({email: e.target.value});
+    }
+
+    handleLattesChange = e => {
+        this.setState({lattes: e.target.value});
+    }
+    
+    handleICVYearChange = e => {
+        let icvLevel = this.state.icv;
+        icvLevel.ano = e.target.value;
+        this.setState({icvLevel});
+    }
+    
+    handleICVTitleChange = e => {
+        let icvLevel = this.state.icv;
+        icvLevel.titulo = e.target.value;
+        this.setState({icvLevel});
+    }
+    handleICVAdvisorChange = e => {
+        let icvLevel = this.state.icv;
+        icvLevel.orientador = e.target.value;
+        this.setState({icvLevel});
+    }
+    handleICVDescriptionChange = e => {
+        let icvLevel = this.state.icv;
+        icvLevel.descricao = e.target.value;
+        this.setState({icvLevel});
+    }
+
+
+    handleInsert = () => {
+        window.alert("Petiano adicionado ao banco de dados");
+        DataHandler.populateDatabase(this.state);
+    }
+    
+    render() {
+        return (
+            <>
+            <Row xs={1} md={2}>
+                <Col style={{maxWidth: "50vw"}}>
+                    
+                </Col>
+                <Col>
+                    <div align="center">
+                        <h1 align="center" style={{color: "white", fontSize: "40px"}}>Adicionar Petiano</h1>
+                        <br></br>
+                        <Form>
+                            {/* Campo do nome */}
+                            <Form.Group controlId="formNome">
+                                <Form.Label style={{color: "white"}}>Nome</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="Nome do Petiano"
+                                    onChange={this.handleNameChange}
+                                />
+                            </Form.Group>
+                            {/* Campo da Descrição */}
+                            <Form.Group controlId="formDescricao">
+                                <Form.Label style={{color: "white"}}>Descrição</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="Descrição do ICV do Petiano"
+                                    onChange={this.handleDescriptionChange}
+                                />
+                            </Form.Group>
+                            {/* Campo do E-mail */}
+                            <Form.Group controlId="formEmail">
+                                <Form.Label style={{color: "white"}}>E-mail</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="E-mail do Petiano"
+                                    onChange={this.handleEmailChange}
+                                />
+                            </Form.Group>
+                            {/* Campo do Lattes */}
+                            <Form.Group controlId="formLattes">
+                                <Form.Label style={{color: "white"}}>Lattes</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="Link para o lattes do Petiano"
+                                    onChange={this.handleLattesChange}
+                                />
+                            </Form.Group>
+                            <h1 style={{color: "white"}}>ICV</h1>
+                            {/* Campo do ICV */}
+                            <Form.Group controlId="formLattes">
+                                <Form.Row>
+                                    <Col>
+                                        <Form.Label style={{color: "white"}}>Ano</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="Ano de realização do ICV"
+                                            onChange={this.handleICVYearChange}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Form.Label style={{color: "white"}}>Título</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="Título do ICV"
+                                            onChange={this.handleICVTitleChange}
+                                        />
+                                    </Col>
+                                </Form.Row>
+
+                                <Form.Row>
+                                    <Col>
+                                        <Form.Label style={{color: "white"}}>Orientador</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="Orientador do ICV"
+                                            onChange={this.handleICVAdvisorChange}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Form.Label style={{color: "white"}}>Descrição</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="Descrição do ICV"
+                                            onChange={this.handleICVDescriptionChange}
+                                        />
+                                    </Col>
+                                </Form.Row>
+                                
+                            </Form.Group>
+                            <Button variant="success" onClick={this.handleInsert}>
+                                Cadastrar Petiano
+                            </Button>
+                        </Form>
+
+                    </div>
+                </Col>
+                <Col>
+                    
+                </Col>
+            </Row>
+            </>
+        )
+    }
+}
+
+export default Forms;
+```
+
+Importa o *DataHandler* e assim que o formulário é totalmente preenchido e o botão para cadastrar o petiano é apertado ele lança a função *handleInsert* que insere no banco de dados todos os dados que foram atributos ao *this.state* via *forms*
