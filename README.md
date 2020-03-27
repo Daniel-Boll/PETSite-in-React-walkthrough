@@ -1836,4 +1836,248 @@ class Forms extends Component {
 export default Forms;
 ```
 
-Importa o *DataHandler* e assim que o formulário é totalmente preenchido e o botão para cadastrar o petiano é apertado ele lança a função *handleInsert* que insere no banco de dados todos os dados que foram atributos ao *this.state* via *forms*
+Importa o *DataHandler* e assim que o formulário é totalmente preenchido e o botão para cadastrar o petiano é apertado ele lança a função *handleInsert* que insere no banco de dados todos os dados que foram atributos ao *this.state* via *forms*. Agora a página que irá receber esses dados do banco é a *Member.js*, dentro de *routes* criaremos o arquivo e colocaremos
+
+```jsx
+import React, {Component} from 'react'
+import { Container } from "react-bootstrap";
+import NavBar from '../widgets/NavBar';
+import Footer from '../widgets/Footer';
+import MemberContent from '../widgets/MemberContent';
+import '../../css/App.css';
+
+class Member extends Component {
+    render() {
+        return (
+            <>
+                <Container style={{ paddingLeft: 24, paddingTop: 24 }}>
+                    <NavBar/>
+                </Container>
+
+                <Container style={{ paddingLeft: 0, paddingRight: 0}}>
+                    <MemberContent/>
+                </Container>
+
+                <Container style={{ paddingLeft: 0, paddingRight: 0}}>
+                    <Footer/>
+                </Container>
+            </>
+        )
+    }
+}
+
+export default Member;
+```
+
+Assim  como na *Home.js* temos o padrão *Navbar*, *Content* da página e no final o *Footer*. Então criamos a *MemberContent.js* em *widgets*. 
+
+```jsx
+import React, {Component} from 'react'
+import { Container, Row, Col } from "react-bootstrap";
+import {Zoom} from '@material-ui/core'
+import DataHandler from '../../data/DataHandler';
+import Loading from '../widgets/Loading';
+
+class MemberContent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            members: [],
+            checked: false
+        };
+    }
+
+    async componentDidMount() {
+        let members = await DataHandler.getAllMembers();
+        this.setState({
+            loading: false,
+            checked: true,
+            members
+        });
+    }
+
+    handleLoad = () => {
+        this.setState({
+            checked: true
+        })
+    }
+
+    render() {
+        const {members, checked} = this.state
+        if (this.state.loading) {
+            return (
+                <Container>
+                    <Loading/>
+                </Container>
+            );
+        }
+
+        return (
+            <>
+                <Row onLoad={this.handleLoad} xs={1} md={2}>
+                    <Col>
+                        <h1 align="center" style={{color: "white", fontSize: "65px"}}>PETIANOS</h1>
+                    </Col>
+                </Row>
+                {members
+                    .map((member, index) => (
+                        <>
+                        <Zoom in={checked} style={{transitionDelay: checked ? index*"250"+"ms" : '0ms'}}>
+                            <Container>
+                                <Row onLoad={this.handleLoad} xs={1} md={2}>
+                                    <Col>
+                                        {index % 2 === 0
+                                            ?   // If true
+                                                <div align="left">   
+                                                    <h1 align="center" style={{color: "white"}}>{member.nome}</h1>
+                                                    <div align="center">
+                                                        <p style={{color: "white"}}>
+                                                            {member.descricao}
+                                                        </p>
+                                                        <p style={{color: "white"}}>
+                                                            <b>E-mail: </b>{member.email}
+                                                        </p>
+                                                        <a href={member.lattes} style={{color: "white"}}>
+                                                            Currículo Lattes
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            :   // If false
+                                                <div align="center">   
+                                                    <h1 align="center" style={{color: "white"}}>Foto</h1>
+                                                </div>
+                                        }
+                                    </Col>
+                                    <Col>
+                                        {index % 2 === 0
+                                            ?   // If true
+                                                <div align="left">   
+                                                    <h1 align="center" style={{color: "white"}}>Foto</h1>
+                                                </div>
+                                            :   // If false
+                                                <div align="left">   
+                                                    <h1 align="center" style={{color: "white"}}>{member.nome}</h1>
+                                                    <div align="center">
+                                                        <p style={{color: "white"}}>
+                                                            {member.descricao}
+                                                        </p>
+                                                        <p style={{color: "white"}}>
+                                                            <b>E-mail: </b>{member.email}
+                                                        </p>
+                                                        <a href={member.lattes} style={{color: "white"}}>
+                                                            Currículo Lattes
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                        }
+                                    </Col>
+                                </Row><br></br><br></br><br></br><br></br>
+                            </Container>
+                        </Zoom>
+                        </>
+                ))}
+            </>
+        )
+    }
+}
+
+export default MemberContent;
+```
+
+Nos *imports* chamamos o DataHandler para podermos acessar as funções de manipulação dos dados do banco.
+
+```jsx
+import DataHandler from '../../data/DataHandler';
+```
+
+No construtor criamos os atributos *loading* para o componente *Loading*, *checked* para o componente *Zoom* e *members* que é uma array onde iremos armazenar os membros.
+
+```jsx
+constructor(props) {
+    super(props);
+    this.state = {
+        loading: true,
+        checked: false,
+        members: [],
+    };
+}
+```
+
+O *Loading* ficará na tela até que a função assíncrona retorne todos os membros e coloque no *this.state*
+
+```jsx
+async componentDidMount() {
+    let members = await DataHandler.getAllMembers();
+    this.setState({
+        loading: false,
+        checked: true,
+        members
+    });
+}
+```
+
+A função *getAllMembers* de *DataHandler* cria um vetor e vai passando por cada membro do banco de dados e armazenando lá dentro e então retorna o vetor. 
+
+E assim que o fizer *loading* passa a ser falso e o componente *Loading* deixa de ser mostrado. Depois iteramos sobre os membros usando o *.map* e dentro da função ficará o *template* de como será a organização de componentes para mostrar os membros com a única diferença de que agora o que será mostrado é ditado pelos valores obtidos pelo banco
+
+```jsx
+members.map((member, index) => ( ... ));
+```
+
+Onde por exemplo o nome ficaria com o conteúdo de *member.nome*
+```jsx
+<h1 align="center" style={{color: "white"}}>{member.nome}</h1>
+```
+
+E assim para os outros atributos. Para dar o efeito de inversão, onde o primeiro fica descrição a esquerda e foto a direita e os próximos sempre o inverso do anterior fizemos um operador ternário com base no *index* que foi o parâmetro que recebemos do *.map*, isto é, no primeiro membro o *index* será igual a 0, então verificamos se *index* é par, se for ele fica (descrição esquerda, foto direita) se ele for impar fica (foto esquerda, descrição direita), fizemos isso da seguinte forma.
+
+```jsx
+{index % 2 === 0
+
+?   -- Onde tudo que vem depois do símbolo "?" só será mostrado caso a condição acima (index %2 === 0) que verifica se é par, for falsa
+
+... 
+
+:   -- E tudo que vier depois do símbolo ":" só será mostrado caso a condição for falsa
+
+...
+
+}
+```
+
+Então como queremos que no primeiro caso ele fique (descrição esquerda, foto direita) se no segundo (foto esquerda, descrição direita) fazemos
+
+```jsx
+<Col>
+  {index % 2 === 0
+
+  ? 
+
+  (descrição)
+
+  : 
+
+  (foto)
+
+  }
+</Col>
+
+<Col>
+  {index % 2 === 0
+
+  ?   
+  
+  (foto)
+
+  :  
+
+  (descrição)
+
+  }
+</Col>
+```
+
+E pronto, com isso mostraremos os membros de forma dinâmica e que alterna o layout conforme número de membros.
