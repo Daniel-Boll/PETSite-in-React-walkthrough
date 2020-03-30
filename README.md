@@ -507,6 +507,11 @@ Agora iremos trabalhar com as informações que serão mostradas na página inic
 </Container>
 ```
 
+Como *HomeContent* é um componente devemos importá-lo também, então logo abaixo de onde importamos o componente da *NavBar* colocamos
+```jsx
+import HomeContent from '../widgets/pagesContent/HomeContent';
+```
+
 Como perceberam é só colocar logo abaixo de onde estava a *navbar* e dentro de outro container, esse que não tem nenhum espaçamento lateral, ou seja, as colunas do corpo da página são coladas na borda da tela, diferente da *navbar*. Então agora precisamos criar a classe desse componente *HomeContent*, em *widgets* juntamente à *NavBar.js* criaremos *HomeContent.js*, ainda na pasta *widgets* criaremos uma outra pasta chamada *subContent* e nela criaremos os seguintes arquivos
 
 * *Logo.js*
@@ -1008,7 +1013,7 @@ Então a primeira *Col* tem novamente uma *div* que compreende tudo, dentro da *
 
 ### 5.3 Footer
 
-Agora o *Footer*, adicionaremos o componente *Footer* na *home* juntamente aos componentes *NavBar* e *HomeContent*, devendo ficar assim
+Agora o *Footer*, adicionaremos o componente *Footer* na *home* juntamente aos componentes *NavBar* e *HomeContent*, devendo ficar assim, importando-o embaixo de *NavBar* e *HomeContent* mudando apenas para *Footer*.
 
 ```jsx
 <Container style={{ paddingLeft: 24, paddingTop: 24 }}>
