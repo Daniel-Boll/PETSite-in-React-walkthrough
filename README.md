@@ -466,6 +466,17 @@ Tudo que fizemos em *NavBar.js* se resume a um único componente
 <NavBar/>
 ```
 
+Agora finalizando para que a *NavBar* possa ter sua estilização de forma correta, devemos acrescentar o *link* para o *css* usado pelo *react-bootstrap* no nosso *index.html* que está em *public* e por a seguinte linha em qualquer parte do *head*
+
+```html
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+  crossorigin="anonymous"
+/>
+```
+
 Então até o momento devemos ter<br>
 <p align="center">
   <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_11.png">
