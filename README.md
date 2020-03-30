@@ -1034,7 +1034,7 @@ E então criaremos o código para o componente, em *widgets* criamos o arquivo *
 ```jsx
 import React, {Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
-import {Facebook, Instagram, GitHub, WhatsApp} from '@material-ui/icons';
+import {Facebook, Instagram, GitHub, YouTube} from '@material-ui/icons';
 
 
 class Footer extends Component {
