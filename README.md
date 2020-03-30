@@ -1518,10 +1518,10 @@ Marque a opção *iniciar no **modo de teste** e depois em ativar
   <img src="https://github.com/Daniel-Boll/PETSite-in-React-walkthrough/blob/master/Imagens/React_22.png">
 </p>
 
-E pronto, seu banco de dados está criado e pronto pra ser usado. Agora baixaremos a dependência *firebase/app* utilizando o *yarn*
+E pronto, seu banco de dados está criado e pronto pra ser usado. Agora baixaremos a dependência *firebase* utilizando o *yarn*
 
 ```console
-foo@bar: /desktop/petsite$ yarn add firebase/app
+foo@bar: /desktop/petsite$ yarn add firebase
 ```
 
 Voltando ao *DataHandler.js* explicaremos a função que nos é importante agora e ,eventualmente, quando as outras funções forem usadas explicamos.
