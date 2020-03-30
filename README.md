@@ -778,6 +778,15 @@ Um componente chamado *Zoom* de uma biblioteca chamada ***@material-ui/core*** e
 foo@bar: /desktop/petsite$ yarn add @material-ui/core
 ```
 
+E assim como com o *react-bootstrap* tivemos que alterar o *index.html* para por o estilizador, aqui será o mesmo, no mesmo segmento que colocamos o *link* do *react-boostrap* colocaremos o do *@material-ui*
+
+```html
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@material-ui/core@4.9.7/umd/material-ui.development.js"
+/>
+```
+
 Agora mais abaixo temos um novo trecho de código com um *constructor*
 ```jsx
 constructor(props) {
